@@ -12,6 +12,7 @@ app.engine('hbs', hbs.engine({
     layoutsDir: path.join(__dirname, 'views/layouts/')
 }))
 
+app.use(express.static('public'))
 app.use(express.urlencoded({extended: true}))
 
 module.exports = app
