@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Example App</title>
-</head>
-<body>
-
-    {{{body}}}
-
-</body>
-</html>
+<h1>Homepage</h1>
+<div class="article-list">
+   {{#articles}}
+   <article>
+    <a href="/article/{{slug}}">
+    <img src="/images/{{image}}">
+    </a>
+    <h2><a href="/article/{{slug}}">{{name}} </a></h2>
+   </article> 
+  {{/articles}} 
+</div>
