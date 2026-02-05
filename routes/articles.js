@@ -1,8 +1,10 @@
 const express = require('express')
+const ArticlesController = require('../controllers/articles.js')
 const router = express.Router()
-const articleController = require('../controller/articles.js')
 
-router.get('/', articleController.getAllArticles)
-router.get('/article/:slug', articleController.getArticleBySlug)
+
+const articlesCtrl = new ArticlesController()
+
+router.get('/',(req,res)=> articlesCtrl.getAllArticles(req,res))
 
 module.exports = router
