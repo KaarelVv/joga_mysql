@@ -5,6 +5,9 @@ const router = express.Router()
 
 const articlesCtrl = new ArticlesController()
 
-router.get('/',(req,res)=> articlesCtrl.getAllArticles(req,res))
+router.get('/', (req, res) => articlesCtrl.getAllArticles(req, res))
+router.get('/article/:slug', (req, res) => {
+    articlesCtrl.getArticleBySlug(req, res)
+})
 
 module.exports = router
