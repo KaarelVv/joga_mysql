@@ -1,14 +1,12 @@
-const connection = require('../utils/db')
-
 class BaseSQLModel {
-    constructor(tableName) {
+    constructor(tableName, connection) {
         this.tableName = tableName
-
+        this.connection = connection
     }
 
     executeQuery(query, params) {
         return new Promise((resolve, reject) => {
-            connection.query(query, params, (err, results) => {
+            this.connection.query(query, params, (err, results) => {
                 if (err) {
                     reject(err)
                 } else {

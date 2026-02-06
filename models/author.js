@@ -1,8 +1,8 @@
 const BaseSQLModel = require('./base');
 
 class AuthorModel extends BaseSQLModel {
-    constructor() {
-        super('author')
+    constructor(connection) {
+        super('author', connection)
     }
 
     async findById(id) {

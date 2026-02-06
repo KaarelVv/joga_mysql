@@ -1,8 +1,8 @@
 const BaseSQLModel = require('./base')
 
 class ArticleModel extends BaseSQLModel {
-    constructor() {
-        super('article')
+    constructor(connection) {
+        super('article', connection)
     }
 
     async findAll() {

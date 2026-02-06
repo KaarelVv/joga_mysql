@@ -1,23 +1,22 @@
 const express = require('express')
-const ArticlesController = require('../controllers/articles.js')
-const router = express.Router()
 
+class ArticlesRoutes {
+    constructor(articlesController) {
+        this.router = express.Router()
+        this.articlesController = articlesController
+        this.registerRoutes()
+    }
 
-const articlesCtrl = new ArticlesController()
+    registerRoutes() {
+        this.router.get('/', this.articlesController.getAllArticles.bind(this.articlesController))
+        this.router.get('/article/create', (req, res) => {
+            res.render('create')
+        })
 
-router.get('/', (req, res) => articlesCtrl.getAllArticles(req, res))
-router.get('/article/create', (req, res) => {
-    res.render('create')
-})
+        this.router.get('/article/:slug', this.articlesController.getArticleBySlug.bind(this.articlesController))
 
-router.get('/article/:slug', (req, res) => {
-    articlesCtrl.getArticleBySlug(req, res)
-})
+        this.router.post('/article/create', this.articlesController.createNewArticle.bind(this.articlesController))
+    }
+}
 
-router.post('/article/create', (req, res) => {
-    articlesCtrl.createNewArticle(req, res)
-})
-
-
-
-module.exports = router
+module.exports = ArticlesRoutes
