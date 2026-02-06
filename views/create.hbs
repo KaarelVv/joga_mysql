@@ -1,0 +1,24 @@
+<h1>Create Article</h1>
+<form method="POST" action="/article/create">
+    <div>
+        <label for="name">Article Name:</label>
+        <input type="text" id="name" name="name" required>
+    </div>
+    
+    <div>
+        <label for="slug">Slug:</label>
+        <input type="text" id="slug" name="slug" required>
+    </div>
+    
+    <div>
+        <label for="image">Image:</label>
+        <input type="text" id="image" name="image">
+    </div>
+    
+    <div>
+        <label for="body">Body:</label>
+        <textarea id="body" name="body" required></textarea>
+    </div>
+    
+    <button type="submit">Create Article</button>
+</form>
