@@ -11,6 +11,17 @@
 <body>
     <header>
         <a href="/">Yoga Blog</a>
+        {{#if user}}
+            <a href="/articles">Home</a>
+            <a href="/articles/manage">Manage Articles</a>
+            <a href="/article/create">Create Article</a>
+            <form method="POST" action="/logout" style="display:inline;">
+                <button type="submit">Logout ({{user.username}})</button>
+            </form>
+        {{else}}
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+        {{/if}}
         <hr>
     </header>
     {{#msg}}<div class="alert">{{.}}</div>{{/msg}}

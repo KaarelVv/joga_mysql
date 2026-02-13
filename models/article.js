@@ -26,12 +26,14 @@ class ArticleModel extends BaseSQLModel {
     }
 
     async update(slug, updatedFields) {
-        const updatedArticle = await super.update('slug', slug, updatedFields)
-        return updatedArticle
+        const query = `UPDATE ${this.tableName} SET ? WHERE slug = ?`
+        const result = await this.executeQuery(query, [updatedFields, slug])
+        return result.affectedRows
     }
     async delete(slug) {
-        const deletedArticle = await super.delete('slug', slug)
-        return deletedArticle
+        const query = `DELETE FROM ${this.tableName} WHERE slug = ?`
+        const result = await this.executeQuery(query, [slug])
+        return result.affectedRows
     }
 }
 

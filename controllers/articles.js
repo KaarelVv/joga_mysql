@@ -9,7 +9,7 @@ class ArticlesController extends BaseController {
     async getAllArticles(req, res) {
         try {
             const articles = await this.articleModel.findAll()
-            res.render('index', { articles })
+            res.render('articles/index', { articles })
         } catch (error) {
             this.handleError(res, error, 'Failed to fetch articles', 500)
         }
@@ -17,7 +17,7 @@ class ArticlesController extends BaseController {
 
     async getArticleBySlug(req, res) {
         const article = await this.articleModel.findOne(req.params.slug)
-        res.status(200).render('article', { article })
+        res.status(200).render('articles/article', { article })
     }
 
 
@@ -31,12 +31,10 @@ class ArticlesController extends BaseController {
                 published: new Date().toISOString().slice(0, 19).replace('T', ' '),
             }
             const articleId = await this.articleModel.create(newArticle)
-
-            res.status(201).json({
-                message: `Article created successfully with ID: ${articleId}`,
-                article: { id: articleId, ...newArticle },
-                redirect: `/index`
-            })
+            if (!articleId) {
+                return res.status(500).send('Failed to create article')
+            }
+            res.redirect(`/article/${newArticle.slug}`)
         } catch (error) {
             this.handleError(res, error, 'Failed to create article', 500)
         }
@@ -52,13 +50,9 @@ class ArticlesController extends BaseController {
             }
             const updatedArticle = await this.articleModel.update(slug, updatedFields)
             if (!updatedArticle) {
-                return res.status(404).json({ message: 'Article not found' })
+                return res.status(404).send('Article not found')
             }
-            res.status(200).json({
-                message: 'Article updated successfully',
-                article: updatedArticle,
-                redirect: `/article/${slug}`
-            })
+            res.redirect(`/article/${slug}`)
         } catch (error) {
             this.handleError(res, error, 'Failed to update article', 500)
         }
@@ -69,13 +63,9 @@ class ArticlesController extends BaseController {
             const slug = req.params.slug
             const deletedArticle = await this.articleModel.delete(slug)
             if (!deletedArticle) {
-                return res.status(404).json({ message: 'Article not found' })       
+                return res.status(404).send('Article not found')
             }
-            res.status(200).json({
-                message: 'Article deleted successfully',
-                article: deletedArticle,
-                redirect: `/index`
-            })
+            res.redirect('/articles/manage')
         } catch (error) {
             this.handleError(res, error, 'Failed to delete article', 500)
         }

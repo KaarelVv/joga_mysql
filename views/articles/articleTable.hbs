@@ -1,5 +1,6 @@
 <div class="container mt-5">
     <h1>Articles</h1>
+    <button onclick="location.href='/articles'">Back to Homepage</button>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -14,10 +15,11 @@
             <tr>
                 <td>{{this.id}}</td>
                 <td>{{this.name}}</td>
-                <td>{{this.content}}</td>
+                <td>{{this.body}}</td>
                 <td>
                     <button class="btn btn-sm btn-primary" onclick="location.href='/article/{{this.slug}}/edit'">Edit</button>
                     <form method="POST" action="/article/{{this.slug}}/delete" style="display:inline;">
+                        <input type="hidden" name="_method" value="DELETE">
                         <button type="submit" class="btn btn-sm btn-danger"
                             onclick="return confirm('Are you sure?')">Delete</button>
                     </form>

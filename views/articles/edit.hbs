@@ -1,0 +1,23 @@
+<h1>Edit Article</h1>
+
+<form method="POST" action="/article/{{article.slug}}/edit">
+    <input type="hidden" name="_method" value="PUT">
+
+    <div>
+        <label for="name">Article Name:</label>
+        <input type="text" id="name" name="name" value="{{article.name}}" required>
+    </div>
+
+    <div>
+        <label for="image">Image:</label>
+        <input type="text" id="image" name="image" value="{{article.image}}">
+    </div>
+
+    <div>
+        <label for="body">Body:</label>
+        <textarea id="body" name="body" required>{{article.body}}</textarea>
+    </div>
+
+    <button type="submit">Save Changes</button>
+    <a href="/article/{{article.slug}}">Cancel</a>
+</form>
