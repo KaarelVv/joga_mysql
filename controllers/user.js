@@ -55,7 +55,7 @@ class UserController extends baseController {
             }
 
             const existingUser = await this.userModel.findByUsername(username)
-           
+
             if (existingUser) {
                 errors.push('This username is already registered.')
             }
@@ -95,14 +95,23 @@ class UserController extends baseController {
 
     async login(req, res) {
         try {
-            const { email, password } = req.body
-            const user = await this.userModel.findByEmail(email)
-            const isValid = user ? await bcrypt.compare(password, user.password) : false
+            const { username, email, password } = req.body
 
-            if (!isValid) {
+            const user = await this.userModel.findByUsername(username)
+            const emailUser = await this.userModel.findByEmail(email)
+
+            if (!user && !emailUser) {
                 return res.status(401).render('auth/login', {
-                    errors: ['Invalid email or password.'],
-                    form: { email }
+                    errors: ['Invalid username or email.'],
+                    form: { username, email }
+                })
+            }
+            const isValidPassword = user ? await bcrypt.compare(password, user.password) : false
+
+            if (!isValidPassword) {
+                return res.status(401).render('auth/login', {
+                    errors: ['Invalid password.'],
+                    form: { username, email }
                 })
             }
 
@@ -124,6 +133,8 @@ class UserController extends baseController {
 
         req.session.destroy(() => {
             res.redirect('/login')
+            return res.status(200).json(
+                { message: 'Logged out successfully' })
         })
     }
 }
