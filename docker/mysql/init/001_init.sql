@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS article (
 ) ENGINE=InnoDB;
 
 INSERT INTO user (id, username, email, password) VALUES
-  (1, 'user1', 'junior@email.com', 'qwerty');    
+  (1, 'user1', 'junior@email.com', 'qwerty');   -- this need to be changed to a hashed password in a real application!
 
 INSERT INTO author (id, name) VALUES
   (1, 'Jane Doe'),
