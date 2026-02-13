@@ -1,3 +1,4 @@
+const BaseController = require('./base')
 
 class ArticlesController extends BaseController {
     constructor(articleModel) {
@@ -40,7 +41,45 @@ class ArticlesController extends BaseController {
             this.handleError(res, error, 'Failed to create article', 500)
         }
     }
+
+    async updateArticle(req, res) {
+        try {
+            const slug = req.params.slug
+            const updatedFields = {
+                name: req.body.name,
+                image: req.body.image,
+                body: req.body.body,
+            }
+            const updatedArticle = await this.articleModel.update(slug, updatedFields)
+            if (!updatedArticle) {
+                return res.status(404).json({ message: 'Article not found' })
+            }
+            res.status(200).json({
+                message: 'Article updated successfully',
+                article: updatedArticle,
+                redirect: `/article/${slug}`
+            })
+        } catch (error) {
+            this.handleError(res, error, 'Failed to update article', 500)
+        }
+    }
+
+    async deleteArticle(req, res) {
+        try {
+            const slug = req.params.slug
+            const deletedArticle = await this.articleModel.delete(slug)
+            if (!deletedArticle) {
+                return res.status(404).json({ message: 'Article not found' })       
+            }
+            res.status(200).json({
+                message: 'Article deleted successfully',
+                article: deletedArticle,
+                redirect: `/index`
+            })
+        } catch (error) {
+            this.handleError(res, error, 'Failed to delete article', 500)
+        }
+    }
 }
 
 module.exports = ArticlesController
-const BaseController = require('./base')
