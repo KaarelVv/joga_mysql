@@ -1,5 +1,12 @@
 USE joga_mysql;
 
+CREATE TABLE IF NOT EXISTS user (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL
+) ENGINE=InnoDB;
+
 CREATE TABLE IF NOT EXISTS author (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL
@@ -16,6 +23,9 @@ CREATE TABLE IF NOT EXISTS article (
   CONSTRAINT fk_article_author
     FOREIGN KEY (author_id) REFERENCES author(id)
 ) ENGINE=InnoDB;
+
+INSERT INTO user (id, username, email, password) VALUES
+  (1, 'user1', 'junior@email.com', 'qwerty');    
 
 INSERT INTO author (id, name) VALUES
   (1, 'Jane Doe'),
