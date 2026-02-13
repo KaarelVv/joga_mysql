@@ -54,9 +54,16 @@ class UserController extends baseController {
                 errors.push('All fields are required.')
             }
 
-            const existingUser = await this.userModel.findByEmail(email)
+            const existingUser = await this.userModel.findByUsername(username)
+           
             if (existingUser) {
-                errors.push('This email is already registered.')
+                errors.push('This username is already registered.')
+            }
+            if (password.length < 6) {
+                errors.push('Password must be at least 6 characters long.')
+            }
+            if (!password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)) {
+                errors.push('Password must contain at least one uppercase letter, one lowercase letter, and one number.')
             }
 
             if (errors.length > 0) {
@@ -65,6 +72,7 @@ class UserController extends baseController {
                     form: { username, email }
                 })
             }
+
 
             const cryptedPassword = await bcrypt.hash(password, 10)
             const registeredUserId = await this.userModel.create({
