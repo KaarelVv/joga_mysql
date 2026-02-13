@@ -1,11 +1,14 @@
 <h1>Homepage</h1>
+<button onclick="location.href='/article/create'">Create Article</button>
+<button onclick="location.href='/articles'">Edit or Delete Articles</button>
+
 <div class="article-list">
-   {{#articles}}
-   <article>
+  {{#articles}}
+  <article>
     <a href="/article/{{slug}}">
-    <img src="/images/{{image}}">
+      <img src="/images/{{image}}">
     </a>
     <h2><a href="/article/{{slug}}">{{name}} </a></h2>
-   </article> 
-  {{/articles}} 
+  </article>
+  {{/articles}}
 </div>
