@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS user (
   id INT AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
-  password VARCHAR(255) NOT NULL
+  password VARCHAR(255) NOT NULL,
+  role ENUM('user', 'admin') NOT NULL DEFAULT 'user'
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS author (
@@ -24,8 +25,6 @@ CREATE TABLE IF NOT EXISTS article (
     FOREIGN KEY (author_id) REFERENCES author(id)
 ) ENGINE=InnoDB;
 
-INSERT INTO user (id, username, email, password) VALUES
-  (1, 'user1', 'junior@email.com', 'qwerty');   -- this need to be changed to a hashed password in a real application!
 
 INSERT INTO author (id, name) VALUES
   (1, 'Jane Doe'),

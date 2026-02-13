@@ -34,13 +34,15 @@ class App {
             secret: process.env.SESSION_SECRET || 'thisismysecretkey',
             resave: false,
             saveUninitialized: false,
-            cookie: { maxAge: 60 * 60 * 1000 * 24 } // 24 hour
+            cookie: { maxAge: 60 * 60 * 1000 * 24 }, // 24 hour
+            role: 'user' // Default role for all users
         }))
     }
 
     configureTemplateLocals() {
         this.app.use((req, res, next) => {
             res.locals.user = req.session ? req.session.user : null
+            res.locals.isAdmin = res.locals.user?.role === 'admin'
             next()
         })
     }

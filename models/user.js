@@ -25,6 +25,10 @@ class UserModel extends BaseSQLModel {
         const updatedUser = await super.update(id, updatedFields)
         return updatedUser
     }
+     async roleCheck(userId) {
+        const user = await this.findById(userId)
+        return user ? user.role : null
+    }
 }
 
 module.exports = UserModel

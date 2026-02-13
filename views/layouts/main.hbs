@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Doctrine ORM Project</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -8,19 +9,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.png">
 </head>
+
 <body>
     <header>
         <a href="/">Yoga Blog</a>
-        {{#if user}}
-            <a href="/articles">Home</a>
-            <a href="/articles/manage">Manage Articles</a>
-            <a href="/article/create">Create Article</a>
-            <form method="POST" action="/logout" style="display:inline;">
-                <button type="submit">Logout ({{user.username}})</button>
-            </form>
+        {{#if isAdmin}}
+        <a href="/admin">Admin Dashboard</a>
+        <a href="/articles/manage">Manage Articles</a>
+        <a href="/article/create">Create Article</a>
+        <form method="POST" action="/logout" style="display:inline;">
+            <button type="submit">Logout ({{user.username}})</button>
+        </form>
+        <a href="/settings">Settings</a>
+
+        {{else if user}}
+        <a href="/articles">Home</a>
+        <form method="POST" action="/logout" style="display:inline;">
+            <button type="submit">Logout ({{user.username}})</button>
+        </form>
+        <a href="/settings">Settings</a>
+
         {{else}}
-            <a href="/login">Login</a>
-            <a href="/register">Register</a>
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+
         {{/if}}
         <hr>
     </header>
@@ -29,4 +41,5 @@
         {{{body}}}
     </main>
 </body>
+
 </html>

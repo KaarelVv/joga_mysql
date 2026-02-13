@@ -1,4 +1,5 @@
 const express = require('express')
+const { requireAuth, requireRole } = require('../utils/auth')
 
 class UserRoutes {
     constructor(userController) {

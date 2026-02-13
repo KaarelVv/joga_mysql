@@ -54,9 +54,14 @@ class UserController extends baseController {
                 errors.push('All fields are required.')
             }
 
-            const existingUser = await this.userModel.findByUsername(username)
+            const existingUserName = await this.userModel.findByUsername(username)
+            const existingEmail = await this.userModel.findByEmail(email)
 
-            if (existingUser) {
+            if (existingEmail) {
+                errors.push('This email is already registered.')
+            }
+
+            if (existingUserName) {
                 errors.push('This username is already registered.')
             }
             if (password.length < 6) {
@@ -85,6 +90,7 @@ class UserController extends baseController {
             req.session.user = {
                 id: userData.id,
                 username: userData.username,
+                role: userData.role
             }
 
             res.redirect('/articles')
@@ -95,15 +101,15 @@ class UserController extends baseController {
 
     async login(req, res) {
         try {
-            const { username, email, password } = req.body
+            const { username, password } = req.body
 
             const user = await this.userModel.findByUsername(username)
-            const emailUser = await this.userModel.findByEmail(email)
-
-            if (!user && !emailUser) {
-                return res.status(401).render('auth/login', {
-                    errors: ['Invalid username or email.'],
-                    form: { username, email }
+           
+            if (!user ) {
+                return res.status(401).render('auth/login',{
+                    errors: ['User does not exist.'],
+    
+                    form: { username }
                 })
             }
             const isValidPassword = user ? await bcrypt.compare(password, user.password) : false
@@ -111,13 +117,14 @@ class UserController extends baseController {
             if (!isValidPassword) {
                 return res.status(401).render('auth/login', {
                     errors: ['Invalid password.'],
-                    form: { username, email }
+                    form: { username }
                 })
             }
 
             req.session.user = {
                 id: user.id,
-                username: user.username
+                username: user.username,
+                role: user.role
             }
 
             res.redirect('/articles')
@@ -133,8 +140,6 @@ class UserController extends baseController {
 
         req.session.destroy(() => {
             res.redirect('/login')
-            return res.status(200).json(
-                { message: 'Logged out successfully' })
         })
     }
 }
